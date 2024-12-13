@@ -1,0 +1,33 @@
+[project]
+name = "nanograhrag"
+version = "0.1.0"
+description = "Add your description here"
+readme = "README.md"
+requires-python = "==3.11.5"
+dependencies = [
+    "future>=1.0.0",
+    "openai",
+    "tiktoken",
+    "networkx",
+    "graspologic",
+    "nano-vectordb",
+    "hnswlib",
+    "xxhash",
+    "tenacity",
+    "dspy-ai",
+    "neo4j",
+    "aioboto3",
+]
+
+[project.optional-dependencies]
+dev = [
+    "flake8",
+    "pytest",
+    "pytest-asyncio",
+    "pytest-cov",
+    "python-dotenv",
+]
+
+[build-system]
+requires = ["setuptools", "wheel"]
+build-backend = "setuptools.build_meta"
