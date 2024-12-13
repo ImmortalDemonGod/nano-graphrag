@@ -17,6 +17,8 @@ dependencies = [
     "dspy-ai",
     "neo4j",
     "aioboto3",
+    "ruff>=0.8.3",
+    "mypy>=1.13.0",
 ]
 
 [project.optional-dependencies]
@@ -31,3 +33,39 @@ dev = [
 [build-system]
 requires = ["setuptools", "wheel"]
 build-backend = "setuptools.build_meta"
+
+[tool.ruff]
+line-length = 88
+target-version = "py311"
+select = [
+    "E",  # pycodestyle errors
+    "F",  # pyflakes
+    "B",  # flake8-bugbear
+    "I",  # isort
+    "UP", # pyupgrade
+    "N",  # pep8-naming
+    "C",  # flake8-comprehensions
+    "W",  # pycodestyle warnings
+]
+ignore = []
+
+[tool.ruff.format]
+quote-style = "double"
+indent-style = "space"
+skip-magic-trailing-comma = false
+line-ending = "auto"
+
+[tool.mypy]
+python_version = "3.11"
+warn_return_any = true
+warn_unused_configs = true
+disallow_untyped_defs = true
+check_untyped_defs = true
+strict = true
+ignore_missing_imports = true
+plugins = []
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+python_files = ["test_*.py"]
+addopts = "-v --cov=nano_graphrag --cov-report=term-missing"

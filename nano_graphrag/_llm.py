@@ -1,17 +1,16 @@
 import json
-import numpy as np
-from typing import Optional, List, Any, Callable
+import os
+from typing import Any, Callable, List, Optional
 
 import aioboto3
-from openai import AsyncOpenAI, AsyncAzureOpenAI, APIConnectionError, RateLimitError
-
+import numpy as np
+from openai import APIConnectionError, AsyncAzureOpenAI, AsyncOpenAI, RateLimitError
 from tenacity import (
     retry,
+    retry_if_exception_type,
     stop_after_attempt,
     wait_exponential,
-    retry_if_exception_type,
 )
-import os
 
 from ._utils import compute_args_hash, wrap_embedding_func_with_attrs
 from .base import BaseKVStorage
@@ -100,22 +99,30 @@ async def amazon_bedrock_complete_if_cache(
     }
 
     async with amazon_bedrock_async_client.client(
-        "bedrock-runtime",
-        region_name=os.getenv("AWS_REGION", "us-east-1")
+        "bedrock-runtime", region_name=os.getenv("AWS_REGION", "us-east-1")
     ) as bedrock_runtime:
         if system_prompt:
             response = await bedrock_runtime.converse(
-                modelId=model, messages=messages, inferenceConfig=inference_config,
-                system=[{"text": system_prompt}]
+                modelId=model,
+                messages=messages,
+                inferenceConfig=inference_config,
+                system=[{"text": system_prompt}],
             )
         else:
             response = await bedrock_runtime.converse(
-                modelId=model, messages=messages, inferenceConfig=inference_config,
+                modelId=model,
+                messages=messages,
+                inferenceConfig=inference_config,
             )
 
     if hashing_kv is not None:
         await hashing_kv.upsert(
-            {args_hash: {"return": response["output"]["message"]["content"][0]["text"], "model": model}}
+            {
+                args_hash: {
+                    "return": response["output"]["message"]["content"][0]["text"],
+                    "model": model,
+                }
+            }
         )
         await hashing_kv.index_done_callback()
     return response["output"]["message"]["content"][0]["text"]
@@ -131,23 +138,24 @@ def create_amazon_bedrock_complete_function(model_id: str) -> Callable:
     Returns:
         Callable: Generated completion function
     """
+
     async def bedrock_complete(
         prompt: str,
         system_prompt: Optional[str] = None,
         history_messages: List[Any] = [],
-        **kwargs
+        **kwargs,
     ) -> str:
         return await amazon_bedrock_complete_if_cache(
             model_id,
             prompt,
             system_prompt=system_prompt,
             history_messages=history_messages,
-            **kwargs
+            **kwargs,
         )
-    
+
     # Set function name for easier debugging
     bedrock_complete.__name__ = f"{model_id}_complete"
-    
+
     return bedrock_complete
 
 
@@ -185,8 +193,7 @@ async def amazon_bedrock_embedding(texts: list[str]) -> np.ndarray:
     amazon_bedrock_async_client = get_amazon_bedrock_async_client_instance()
 
     async with amazon_bedrock_async_client.client(
-        "bedrock-runtime",
-        region_name=os.getenv("AWS_REGION", "us-east-1")
+        "bedrock-runtime", region_name=os.getenv("AWS_REGION", "us-east-1")
     ) as bedrock_runtime:
         embeddings = []
         for text in texts:
@@ -197,7 +204,8 @@ async def amazon_bedrock_embedding(texts: list[str]) -> np.ndarray:
                 }
             )
             response = await bedrock_runtime.invoke_model(
-                modelId="amazon.titan-embed-text-v2:0", body=body,
+                modelId="amazon.titan-embed-text-v2:0",
+                body=body,
             )
             response_body = await response.get("body").read()
             embeddings.append(json.loads(response_body))
