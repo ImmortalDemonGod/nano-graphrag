@@ -34,10 +34,11 @@ As a researcher
 I want all uploaded documents to be automatically indexed
 So that I can search across them immediately
 Acceptance Criteria:
-- Documents are processed within 5 minutes of upload
+- Documents are processed within 5 minutes of upload (initial processing)
 - Search index is updated automatically
-- Processing status is visible
+- Processing status is visible with progress indicators
 - Metadata is extracted and displayable
+- Background reprocessing supported for deep analysis
 Size: Large
 Dependencies: DOC-001
 Priority: P0

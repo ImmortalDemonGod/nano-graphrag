@@ -16,6 +16,11 @@ Let me help create a better index.md for your DocInsight documentation, organizi
 This documentation focuses on DocInsight-specific implementation and features. 
 For NanoGraphRAG framework documentation, please refer to the NanoGraphRAG 
 repository.
+
+## Processing Strategy Documentation
+- Query Processing: Types of queries and processing approaches
+- Background Tasks: Management of long-running research queries
+- Performance Expectations: Query response time guidelines
 1. **Project Overview**
    - [Final Pitch](./docinsight-final-pitch.md) - Vision, capabilities, and strategic roadmap
    - [User Stories](./docinsight-user-stories.md) - Detailed feature requirements and acceptance criteria

@@ -14,7 +14,9 @@ DocInsight has proven its capability to transform research efficiency, reducing 
 
 2. Expected MVP Metrics
 - Target support for 50 concurrent beta users
-- Vector search latency under 100ms for up to 100k vectors
+- Simple queries completed within 60 seconds
+- Complex queries supported via background processing
+- Daily research updates for monitored topics
 - Initial deployment using nano-vectordb
 - Planned migration path to LanceDB for production scale
 
