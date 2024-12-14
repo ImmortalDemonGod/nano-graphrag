@@ -1,7 +1,9 @@
 import os
-import pytest
-import numpy as np
 from functools import wraps
+
+import numpy as np
+import pytest
+
 from nano_graphrag import GraphRAG
 from nano_graphrag._storage import Neo4jStorage
 from nano_graphrag._utils import wrap_embedding_func_with_attrs
