@@ -184,7 +184,5 @@ Priority: P3
 - User satisfaction > 4/5
 - System uptime > 99.9%
 - Vector search latency < 100ms (nano-vectordb)
-- Support for 50 concurrent beta users
 - Beta deployment uptime > 99%
-- Support for 50 concurrent beta users
 - Vector search < 100ms for 100k vectors (nano-vectordb requirement)
