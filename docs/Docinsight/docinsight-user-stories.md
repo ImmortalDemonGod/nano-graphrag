@@ -168,9 +168,9 @@ Priority: P3
 - P3: Future enhancement
 
 2. Size Estimates:
-- Small: 1-3 days
-- Medium: 1-2 weeks
-- Large: 2-4 weeks
+- Small: 1-2 days
+- Medium: 3-5 days
+- Large: 1-2 weeks
 
 3. Development Sequence:
 - Stage 1: P0 items (Dec 13 2024 - Jan 31 2025)

@@ -5,7 +5,7 @@ DocInsight has proven its capability to transform research efficiency, reducing 
 
 ## Proven Foundation
 
-### Current Capabilities
+### Target MVP Capabilities (June 1st 2025)
 1. Document Analysis Engine
 - Processes multiple document formats
 - Provides accurate query responses with citations
