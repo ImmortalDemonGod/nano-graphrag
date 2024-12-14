@@ -6,7 +6,16 @@ Let me help create a better index.md for your DocInsight documentation, organizi
 
 # DocInsight Documentation
 
-## Core Documentation
+## Framework Documentation
+- **Core DocInsight Documentation**: Current directory
+- **NanoGraphRAG Reference**: Available in separate repository
+  - Note: Integration guides, benchmarks, and framework documentation 
+    referenced here are part of the base NanoGraphRAG project
+
+## Documentation Scope
+This documentation focuses on DocInsight-specific implementation and features. 
+For NanoGraphRAG framework documentation, please refer to the NanoGraphRAG 
+repository.
 1. **Project Overview**
    - [Final Pitch](./docinsight-final-pitch.md) - Vision, capabilities, and strategic roadmap
    - [User Stories](./docinsight-user-stories.md) - Detailed feature requirements and acceptance criteria

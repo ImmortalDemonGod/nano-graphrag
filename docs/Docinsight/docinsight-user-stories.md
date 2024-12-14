@@ -16,6 +16,19 @@ Size: Medium
 Dependencies: None
 Priority: P0
 
+ID: SEARCH-003
+As a researcher
+I want to set up background processing for complex research questions
+So that I can receive ongoing updates about my research area
+Acceptance Criteria:
+- Configure update frequency (daily/weekly)
+- Specify research topics and criteria
+- Receive notifications when new insights are found
+- Access historical analysis results
+Size: Large
+Dependencies: SEARCH-001
+Priority: P1
+
 ID: DOC-002
 As a researcher
 I want all uploaded documents to be automatically indexed
@@ -35,7 +48,9 @@ As a researcher
 I want to search across all my documents with natural language queries
 So that I can find relevant information quickly
 Acceptance Criteria:
-- Search returns results within 2 seconds
+- Simple queries complete within 45-60 seconds
+- Complex research queries may take longer with progress updates
+- Background processing enabled for ongoing research questions
 - Results show document context
 - Results are ranked by relevance
 - Search supports boolean operators
@@ -185,4 +200,3 @@ Priority: P3
 - System uptime > 99.9%
 - Vector search latency < 100ms (nano-vectordb)
 - Beta deployment uptime > 99%
-- Vector search < 100ms for 100k vectors (nano-vectordb requirement)
