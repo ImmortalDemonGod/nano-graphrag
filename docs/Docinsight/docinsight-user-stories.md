@@ -162,7 +162,7 @@ Priority: P3
 ### Implementation Notes
 
 1. Priority Levels:
-- P0: Must have for MVP (Due June 1st 2025)
+- P0: Must have for MVP (Due June 1st 2025, ~5.75 months from start)
 - P1: Important for basic functionality
 - P2: Desired for full functionality
 - P3: Future enhancement
