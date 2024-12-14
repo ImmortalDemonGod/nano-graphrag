@@ -25,12 +25,12 @@ DocInsight has proven its capability to transform research efficiency, reducing 
 ### Core Components
 1. Document Processing
 - RAG (Retrieval Augmented Generation) implementation
-- Vector database integration
+- Vector database integration with maintenance protocols
 - Multi-format document handling
 - Metadata extraction system
 
 2. Analysis Engine
-- Context-aware query processing
+- Tiered query processing (simple/complex/monitoring)
 - Cross-reference validation
 - Source verification
 - Citation management
@@ -41,7 +41,13 @@ DocInsight has proven its capability to transform research efficiency, reducing 
 - Topic clustering
 - Information hierarchy management
 
-4. Asynchronous Processing
+4. Security & Maintenance
+- MAC address verification
+- Session management
+- Access logging and auditing
+- Database maintenance automation
+
+5. Asynchronous Processing
 - Background task management
 - Scheduled research updates
 - Progress tracking
