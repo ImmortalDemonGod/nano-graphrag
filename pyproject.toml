@@ -69,3 +69,8 @@ plugins = []
 testpaths = ["tests"]
 python_files = ["test_*.py"]
 addopts = "-v --cov=nano_graphrag --cov-report=term-missing"
+
+[dependency-groups]
+dev = [
+    "aider-chat>=0.69.0",
+]
