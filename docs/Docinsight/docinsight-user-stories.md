@@ -162,7 +162,7 @@ Priority: P3
 ### Implementation Notes
 
 1. Priority Levels:
-- P0: Must have for MVP
+- P0: Must have for MVP (Due June 1st 2025)
 - P1: Important for basic functionality
 - P2: Desired for full functionality
 - P3: Future enhancement
@@ -173,13 +173,18 @@ Priority: P3
 - Large: 2-4 weeks
 
 3. Development Sequence:
-- Stage 1: P0 items (3 months)
-- Stage 2: P1 items (3 months)
-- Stage 3: P2 items (6 months)
-- Stage 4: P3 items (6+ months)
+- Stage 1: P0 items (Dec 13 2024 - Jan 31 2025)
+- Stage 2: P1 items (Feb 1 2025 - Mar 31 2025)
+- Stage 3: P2 items (Apr 1 2025 - May 15 2025)
+- Stage 4: MVP Beta Launch (May 15 2025 - June 1 2025)
 
 4. Success Metrics:
 - Response time < 2 seconds
 - Search accuracy > 95%
 - User satisfaction > 4/5
 - System uptime > 99.9%
+- Vector search latency < 100ms (nano-vectordb)
+- Support for 50 concurrent beta users
+- Beta deployment uptime > 99%
+- Support for 50 concurrent beta users
+- Vector search < 100ms for 100k vectors (nano-vectordb requirement)

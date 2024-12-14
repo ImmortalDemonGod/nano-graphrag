@@ -145,3 +145,11 @@
    - Keep technical docs current
    - Update user guides
    - Maintain API documentation
+### Technical Stack
+1. Vector Database
+   - MVP Phase: nano-vectordb
+   - Future Production: LanceDB
+   
+2. RAG Implementation
+   - Base: nanographRAG
+   - Custom extensions for security and performance

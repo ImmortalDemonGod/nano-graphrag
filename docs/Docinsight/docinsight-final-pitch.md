@@ -40,19 +40,21 @@ DocInsight has proven its capability to transform research efficiency, reducing 
 - Information hierarchy management
 
 ### Evolution Path
-1. Near-Term (6 months)
-- Persistent knowledge storage
+1. Near-Term (MVP - June 1st 2025)
+- Persistent knowledge storage using nano-vectordb
 - Template-based document generation
 - Research progress tracking
 - Basic workflow integration
+- Initial beta deployment for 50 users
 
-2. Mid-Term (12 months)
+2. Mid-Term (Post-MVP)
+- Migration to LanceDB for production scale
 - Full documentation automation
 - Version control system
 - Quality assurance tools
 - Collaboration features
 
-3. Long-Term (18+ months)
+3. Long-Term (Future Phases)
 - Complete research lifecycle management
 - Advanced analytics and insights
 - Institution-wide knowledge management
