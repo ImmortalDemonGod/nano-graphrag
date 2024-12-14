@@ -1,8 +1,8 @@
 # DocInsight: Migration Project Plan
 
-## Phase 1: Foundation (Dec 13 2024 - Jan 31 2025)
+## Phase 1: Foundation (Dec 13 2024 - Jan 15 2025)
 
-### Initial Setup & Core Integration (Dec 13 - Dec 31 2024)
+### Initial Setup & Core Integration (Dec 13 - Jan 15 2025)
 1. Set up development environment
    - Install NanoGraphRAG
    - Configure development tools
@@ -18,7 +18,7 @@
    - Basic integration tests
    - Performance benchmarks
 
-### Vector Database Implementation (Jan 1 - Jan 31 2025)
+### Vector Database Implementation (Jan 16 - Mar 15 2025)
 1. Data migration
    - Export existing data
    - Transform to new format
@@ -29,7 +29,7 @@
    - Set up indexing
    - Implement backup procedures
 
-## Phase 2: Custom Components (Feb 1 - Mar 31 2025)
+## Phase 2: Custom Components (Jan 16 - Mar 15 2025)
 
 ### Week 3: Query Processing
 1. Intent analysis system
@@ -53,7 +53,7 @@
    - Conflict resolution
    - Reference management
 
-## Phase 3: Security & MVP Preparation (Apr 1 - June 1 2025)
+## Phase 3: Security & MVP Preparation (Mar 16 - Apr 30 2025)
 
 ### Week 5: Security Implementation
 1. Network security
@@ -66,7 +66,9 @@
    - Backup procedures
    - Compliance checks
 
-### Week 6: Optimization & Launch
+## Phase 4: Optimization & Launch (May 1 - June 1 2025)
+
+### Optimization & Launch (May 1 - June 1 2025)
 1. Performance optimization
    - Query optimization
    - Cache tuning
