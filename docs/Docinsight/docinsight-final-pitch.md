@@ -12,11 +12,11 @@ DocInsight has proven its capability to transform research efficiency, reducing 
 - Cross-validates information across sources
 - Tracks and verifies sources
 
-2. Validated Results
-- Reduced 4-6 weeks of analysis work to hours
-- 95% accuracy on 900 benchmark questions
-- 88% reduction in analysis costs
-- Successfully scaled to 45,000 papers
+2. Expected MVP Metrics
+- Target support for 50 concurrent beta users
+- Vector search latency under 100ms for up to 100k vectors
+- Initial deployment using nano-vectordb
+- Planned migration path to LanceDB for production scale
 
 ## Technical Architecture
 
