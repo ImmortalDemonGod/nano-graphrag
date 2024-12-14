@@ -25,6 +25,7 @@ repository.
    - [Final Pitch](./docinsight-final-pitch.md) - Vision, capabilities, and strategic roadmap
    - [User Stories](./docinsight-user-stories.md) - Detailed feature requirements and acceptance criteria
    - [Implementation Plan](./implementation-plan.md) - High-level technical architecture and development framework
+   - [Query Processing Types and Performance](./query-processing.md) - Detailed classification and optimization strategies
 
 ## Technical Documentation
 1. **Analysis & Implementation**
