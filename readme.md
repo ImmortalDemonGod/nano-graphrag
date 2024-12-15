@@ -256,7 +256,7 @@ Some important prompts:
 Switch to the built-in text splitter chunking method:
 
 ```python
-from nano_graphrag._op import chunking_by_seperators
+from nano_graphrag.chunking import chunking_by_seperators
 
 GraphRAG(...,chunk_func=chunking_by_seperators,...)
 ```

@@ -1,7 +1,7 @@
 from nano_graphrag._utils import encode_string_by_tiktoken
 from nano_graphrag.base import QueryParam
 from nano_graphrag.graphrag import GraphRAG
-from nano_graphrag._op import chunking_by_seperators
+from nano_graphrag.chunking import chunking_by_seperators
 
 
 def chunking_by_token_size(

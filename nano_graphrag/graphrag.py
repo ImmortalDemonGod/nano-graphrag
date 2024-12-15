@@ -18,11 +18,10 @@ from ._llm import (
     gpt_4o_mini_complete,
     openai_embedding,
 )
+from .chunking import chunking_by_token_size, get_chunks
 from ._op import (
-    chunking_by_token_size,
     extract_entities,
     generate_community_report,
-    get_chunks,
     global_query,
     local_query,
     naive_query,

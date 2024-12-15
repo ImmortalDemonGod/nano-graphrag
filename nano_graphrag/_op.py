@@ -28,7 +28,7 @@ from .base import (
     TextChunkSchema,
 )
 from .prompt import GRAPH_FIELD_SEP, PROMPTS
-from .entity_extraction import _handle_single_entity_extraction, _handle_single_relationship_extraction
+from .entity_extraction.extract import _handle_single_entity_extraction, _handle_single_relationship_extraction
 
 
 async def _handle_entity_relation_summary(
