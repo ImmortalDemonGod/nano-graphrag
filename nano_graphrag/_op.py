@@ -58,6 +58,7 @@ async def _handle_entity_relation_summary(
 
 
 
+from .summarization import _handle_entity_relation_summary
 from .entity_relationship_extraction import (
     _handle_single_entity_extraction,
     _handle_single_relationship_extraction,
