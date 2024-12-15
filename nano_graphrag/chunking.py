@@ -55,7 +55,7 @@ def chunking_by_token_size(
     return results
 
 
-def chunking_by_separators(
+def chunking_by_seperators(
     tokens_list: list[list[int]],
     doc_keys: list[str],
     tiktoken_model: Any,  # Replace Any with actual type if known
