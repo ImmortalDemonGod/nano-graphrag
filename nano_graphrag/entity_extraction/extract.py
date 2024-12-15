@@ -5,7 +5,7 @@ from collections import defaultdict
 import dspy
 from openai import BadRequestError
 
-from nano_graphrag._op import _merge_edges_then_upsert, _merge_nodes_then_upsert
+from nano_graphrag.knowledge_graph_ops import _merge_edges_then_upsert, _merge_nodes_then_upsert
 from nano_graphrag._utils import compute_mdhash_id, logger
 from nano_graphrag.base import (
     BaseGraphStorage,

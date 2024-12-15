@@ -1,6 +1,6 @@
 import asyncio
 from ._utils import decode_tokens_by_tiktoken, encode_string_by_tiktoken, logger
-from .prompt import PROMPTS
+from .prompt import GRAPH_FIELD_SEP, PROMPTS
 
 async def _handle_entity_relation_summary(
     entity_or_relation_name: str,
@@ -21,7 +21,7 @@ async def _handle_entity_relation_summary(
     )
     context_base = dict(
         entity_name=entity_or_relation_name,
-        description_list=use_description.split(PROMPTS["GRAPH_FIELD_SEP"]),
+        description_list=use_description.split(GRAPH_FIELD_SEP),
     )
     use_prompt = prompt_template.format(**context_base)
     logger.debug(f"Trigger summary: {entity_or_relation_name}")

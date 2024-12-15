@@ -172,8 +172,8 @@ async def test_extract_entities_dspy(mock_chunks, mock_graph_storage, entity_vdb
         if use_compiled:
             mock_extractor_instance.load = Mock()
 
-        with patch('nano_graphrag.entity_extraction.extract._merge_nodes_then_upsert', new_callable=AsyncMock) as mock_merge_nodes, \
-             patch('nano_graphrag.entity_extraction.extract._merge_edges_then_upsert', new_callable=AsyncMock) as mock_merge_edges:
+        with patch('nano_graphrag.knowledge_graph_ops._merge_nodes_then_upsert', new_callable=AsyncMock) as mock_merge_nodes, \
+             patch('nano_graphrag.knowledge_graph_ops._merge_edges_then_upsert', new_callable=AsyncMock) as mock_merge_edges:
             mock_merge_nodes.return_value = mock_entity
             result = await extract_entities_dspy(mock_chunks, mock_graph_storage, entity_vdb, mock_global_config)
 

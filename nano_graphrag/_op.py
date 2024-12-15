@@ -29,7 +29,6 @@ from .base import (
 )
 from .prompt import GRAPH_FIELD_SEP, PROMPTS
 from .knowledge_graph_ops import _merge_nodes_then_upsert, _merge_edges_then_upsert
-from .summarization import _handle_entity_relation_summary
 from .entity_relationship_extraction import (
     _handle_single_entity_extraction,
     _handle_single_relationship_extraction,
