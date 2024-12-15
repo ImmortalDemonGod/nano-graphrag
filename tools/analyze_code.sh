@@ -105,17 +105,14 @@ fi
 echo "Running Mypy..."
 echo -e "\n=== MYPY ANALYSIS ===\n" >> "$COMBINED_OUTPUT"
 
-RELATIVE_PATH=${FILE_PATH#"$PROJECT_ROOT/"}
-MYPY_XML_PATH="$TEMP_DIR/mypy_report.xml"
-
-uv run mypy "$FILE_PATH" --pretty --xml-report "$TEMP_DIR" || {
-    echo "Note: Mypy found issues (this is normal)."
-}
-
-# Extract the specific file's XML content if it exists
-if [ -f "$TEMP_DIR/index.xml" ]; then
-    cat "$TEMP_DIR/index.xml" >> "$COMBINED_OUTPUT"
+# Run Mypy and capture both stdout and stderr
+if ! uv run mypy "$FILE_PATH" --pretty > "$TEMP_DIR/mypy_stdout.txt" 2> "$TEMP_DIR/mypy_stderr.txt"; then
+    echo "Note: Mypy found issues (this is normal)." 
 fi
+
+# Append Mypy's stdout and stderr to the combined output
+cat "$TEMP_DIR/mypy_stdout.txt" >> "$COMBINED_OUTPUT"
+cat "$TEMP_DIR/mypy_stderr.txt" >> "$COMBINED_OUTPUT"
 
 ###############################################################################
 # 3. Run Ruff
