@@ -1,8 +1,7 @@
 import dspy
 from pydantic import BaseModel, Field
-from nano_graphrag._utils import clean_str
-from nano_graphrag._utils import logger
 
+from nano_graphrag._utils import clean_str, logger
 
 """
 Obtained from:
@@ -272,19 +271,19 @@ class TypedEntityRelationshipExtractor(dspy.Module):
         self.entity_types = entity_types
         self.self_refine = self_refine
         self.num_refine_turns = num_refine_turns
-        
+
         self.extractor = dspy.TypedChainOfThought(signature=CombinedExtraction, max_retries=max_retries)
         self.extractor = TypedEntityRelationshipExtractorException(
             self.extractor, exception_types=(ValueError,)
         )
-        
+
         if self.self_refine:
             self.critique = dspy.TypedChainOfThought(
-                signature=CritiqueCombinedExtraction, 
+                signature=CritiqueCombinedExtraction,
                 max_retries=max_retries
             )
             self.refine = dspy.TypedChainOfThought(
-                signature=RefineCombinedExtraction, 
+                signature=RefineCombinedExtraction,
                 max_retries=max_retries
             )
 
@@ -293,21 +292,21 @@ class TypedEntityRelationshipExtractor(dspy.Module):
             extraction_result = self.extractor(
                 input_text=input_text, entity_types=self.entity_types
             )
-            
+
             current_entities: list[Entity] = extraction_result.entities
             current_relationships: list[Relationship] = extraction_result.relationships
-            
+
             if self.self_refine:
                 for _ in range(self.num_refine_turns):
                     critique_result = self.critique(
-                        input_text=input_text, 
-                        entity_types=self.entity_types, 
+                        input_text=input_text,
+                        entity_types=self.entity_types,
                         current_entities=current_entities,
                         current_relationships=current_relationships
                     )
                     refined_result = self.refine(
-                        input_text=input_text, 
-                        entity_types=self.entity_types, 
+                        input_text=input_text,
+                        entity_types=self.entity_types,
                         current_entities=current_entities,
                         current_relationships=current_relationships,
                         entity_critique=critique_result.entity_critique,

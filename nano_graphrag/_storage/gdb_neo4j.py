@@ -1,11 +1,12 @@
-import json
 import asyncio
+import json
 from collections import defaultdict
-from neo4j import AsyncGraphDatabase
 from dataclasses import dataclass
-from typing import Union
-from ..base import BaseGraphStorage, SingleCommunitySchema
+
+from neo4j import AsyncGraphDatabase
+
 from .._utils import logger
+from ..base import BaseGraphStorage, SingleCommunitySchema
 from ..prompt import GRAPH_FIELD_SEP
 
 neo4j_lock = asyncio.Lock()
@@ -109,7 +110,7 @@ class Neo4jStorage(BaseGraphStorage):
             record = await result.single()
             return record["degree"] if record else 0
 
-    async def get_node(self, node_id: str) -> Union[dict, None]:
+    async def get_node(self, node_id: str) -> dict | None:
         async with self.async_driver.session() as session:
             result = await session.run(
                 f"MATCH (n:{self.namespace}) WHERE n.id = $node_id RETURN properties(n) AS node_data",
@@ -134,7 +135,7 @@ class Neo4jStorage(BaseGraphStorage):
 
     async def get_edge(
         self, source_node_id: str, target_node_id: str
-    ) -> Union[dict, None]:
+    ) -> dict | None:
         async with self.async_driver.session() as session:
             result = await session.run(
                 f"MATCH (s:{self.namespace})-[r]->(t:{self.namespace}) "
@@ -148,7 +149,7 @@ class Neo4jStorage(BaseGraphStorage):
 
     async def get_node_edges(
         self, source_node_id: str
-    ) -> Union[list[tuple[str, str]], None]:
+    ) -> list[tuple[str, str]] | None:
         async with self.async_driver.session() as session:
             result = await session.run(
                 f"MATCH (s:{self.namespace})-[r]->(t:{self.namespace}) WHERE s.id = $source_id "

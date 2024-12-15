@@ -1,6 +1,7 @@
 import json
 import os
-from typing import Any, Callable, List, Optional
+from collections.abc import Callable
+from typing import Any
 
 import aioboto3
 import numpy as np
@@ -141,8 +142,8 @@ def create_amazon_bedrock_complete_function(model_id: str) -> Callable:
 
     async def bedrock_complete(
         prompt: str,
-        system_prompt: Optional[str] = None,
-        history_messages: List[Any] = [],
+        system_prompt: str | None = None,
+        history_messages: list[Any] = [],
         **kwargs,
     ) -> str:
         return await amazon_bedrock_complete_if_cache(

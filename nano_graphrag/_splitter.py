@@ -1,10 +1,11 @@
-from typing import List, Optional, Union, Literal
+from typing import Literal
+
 
 class SeparatorSplitter:
     def __init__(
         self,
-        separators: Optional[List[List[int]]] = None,
-        keep_separator: Union[bool, Literal["start", "end"]] = "end",
+        separators: list[list[int]] | None = None,
+        keep_separator: bool | Literal["start", "end"] = "end",
         chunk_size: int = 4000,
         chunk_overlap: int = 200,
         length_function: callable = len,
@@ -15,11 +16,11 @@ class SeparatorSplitter:
         self._chunk_overlap = chunk_overlap
         self._length_function = length_function
 
-    def split_tokens(self, tokens: List[int]) -> List[List[int]]:
+    def split_tokens(self, tokens: list[int]) -> list[list[int]]:
         splits = self._split_tokens_with_separators(tokens)
         return self._merge_splits(splits)
 
-    def _split_tokens_with_separators(self, tokens: List[int]) -> List[List[int]]:
+    def _split_tokens_with_separators(self, tokens: list[int]) -> list[list[int]]:
         splits = []
         current_split = []
         i = 0
@@ -44,7 +45,7 @@ class SeparatorSplitter:
             splits.append(current_split)
         return [s for s in splits if s]
 
-    def _merge_splits(self, splits: List[List[int]]) -> List[List[int]]:
+    def _merge_splits(self, splits: list[list[int]]) -> list[list[int]]:
         if not splits:
             return []
 
@@ -68,10 +69,10 @@ class SeparatorSplitter:
 
         if self._chunk_overlap > 0:
             return self._enforce_overlap(merged_splits)
-        
+
         return merged_splits
 
-    def _split_chunk(self, chunk: List[int]) -> List[List[int]]:
+    def _split_chunk(self, chunk: list[int]) -> list[list[int]]:
         result = []
         for i in range(0, len(chunk), self._chunk_size - self._chunk_overlap):
             new_chunk = chunk[i:i + self._chunk_size]
@@ -79,7 +80,7 @@ class SeparatorSplitter:
                 result.append(new_chunk)
         return result
 
-    def _enforce_overlap(self, chunks: List[List[int]]) -> List[List[int]]:
+    def _enforce_overlap(self, chunks: list[list[int]]) -> list[list[int]]:
         result = []
         for i, chunk in enumerate(chunks):
             if i == 0:

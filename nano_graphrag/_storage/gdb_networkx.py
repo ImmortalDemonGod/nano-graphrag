@@ -3,7 +3,8 @@ import json
 import os
 from collections import defaultdict
 from dataclasses import dataclass
-from typing import Any, Union, cast
+from typing import Any, cast
+
 import networkx as nx
 import numpy as np
 
@@ -102,7 +103,7 @@ class NetworkXStorage(BaseGraphStorage):
     async def has_edge(self, source_node_id: str, target_node_id: str) -> bool:
         return self._graph.has_edge(source_node_id, target_node_id)
 
-    async def get_node(self, node_id: str) -> Union[dict, None]:
+    async def get_node(self, node_id: str) -> dict | None:
         return self._graph.nodes.get(node_id)
 
     async def node_degree(self, node_id: str) -> int:
@@ -116,7 +117,7 @@ class NetworkXStorage(BaseGraphStorage):
 
     async def get_edge(
         self, source_node_id: str, target_node_id: str
-    ) -> Union[dict, None]:
+    ) -> dict | None:
         return self._graph.edges.get((source_node_id, target_node_id))
 
     async def get_node_edges(self, source_node_id: str):

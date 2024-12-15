@@ -1,18 +1,19 @@
-import re
-import json
 import asyncio
-import tiktoken
-from typing import Union
+import json
+import re
 from collections import Counter, defaultdict
+
+import tiktoken
+
 from ._splitter import SeparatorSplitter
 from ._utils import (
-    logger,
     clean_str,
     compute_mdhash_id,
     decode_tokens_by_tiktoken,
     encode_string_by_tiktoken,
     is_float_regex,
     list_of_list_to_csv,
+    logger,
     pack_user_ass_to_openai_messages,
     split_string_by_multi_markers,
     truncate_list_by_token_size,
@@ -21,10 +22,10 @@ from .base import (
     BaseGraphStorage,
     BaseKVStorage,
     BaseVectorStorage,
-    SingleCommunitySchema,
     CommunitySchema,
-    TextChunkSchema,
     QueryParam,
+    SingleCommunitySchema,
+    TextChunkSchema,
 )
 from .prompt import GRAPH_FIELD_SEP, PROMPTS
 
@@ -294,7 +295,7 @@ async def extract_entities(
     entity_vdb: BaseVectorStorage,
     global_config: dict,
     using_amazon_bedrock: bool=False,
-) -> Union[BaseGraphStorage, None]:
+) -> BaseGraphStorage | None:
     use_llm_func: callable = global_config["best_model_func"]
     entity_extract_max_gleaning = global_config["entity_extract_max_gleaning"]
 
@@ -491,7 +492,7 @@ async def _pack_single_community_describe(
             node_data.get("description", "UNKNOWN"),
             await knwoledge_graph_inst.node_degree(node_name),
         ]
-        for i, (node_name, node_data) in enumerate(zip(nodes_in_order, nodes_data))
+        for i, (node_name, node_data) in enumerate(zip(nodes_in_order, nodes_data, strict=False))
     ]
     nodes_list_data = sorted(nodes_list_data, key=lambda x: x[-1], reverse=True)
     nodes_may_truncate_list_data = truncate_list_by_token_size(
@@ -505,7 +506,7 @@ async def _pack_single_community_describe(
             edge_data.get("description", "UNKNOWN"),
             await knwoledge_graph_inst.edge_degree(*edge_name),
         ]
-        for i, (edge_name, edge_data) in enumerate(zip(edges_in_order, edges_data))
+        for i, (edge_name, edge_data) in enumerate(zip(edges_in_order, edges_data, strict=False))
     ]
     edges_list_data = sorted(edges_list_data, key=lambda x: x[-1], reverse=True)
     edges_may_truncate_list_data = truncate_list_by_token_size(
@@ -646,9 +647,9 @@ async def generate_community_report(
         this_level_community_keys, this_level_community_values = zip(
             *[
                 (k, v)
-                for k, v in zip(community_keys, community_values)
+                for k, v in zip(community_keys, community_values, strict=False)
                 if v["level"] == level
-            ]
+            ], strict=False
         )
         this_level_communities_reports = await asyncio.gather(
             *[
@@ -666,7 +667,7 @@ async def generate_community_report(
                 for k, r, v in zip(
                     this_level_community_keys,
                     this_level_communities_reports,
-                    this_level_community_values,
+                    this_level_community_values, strict=False,
                 )
             }
         )
@@ -695,7 +696,7 @@ async def _find_most_related_community_from_entities(
     )
     related_community_datas = {
         k: v
-        for k, v in zip(related_community_keys_counts.keys(), _related_community_datas)
+        for k, v in zip(related_community_keys_counts.keys(), _related_community_datas, strict=False)
         if v is not None
     }
     related_community_keys = sorted(
@@ -744,11 +745,11 @@ async def _find_most_related_text_unit_from_entities(
     )
     all_one_hop_text_units_lookup = {
         k: set(split_string_by_multi_markers(v["source_id"], [GRAPH_FIELD_SEP]))
-        for k, v in zip(all_one_hop_nodes, all_one_hop_nodes_data)
+        for k, v in zip(all_one_hop_nodes, all_one_hop_nodes_data, strict=False)
         if v is not None
     }
     all_text_units_lookup = {}
-    for index, (this_text_units, this_edges) in enumerate(zip(text_units, edges)):
+    for index, (this_text_units, this_edges) in enumerate(zip(text_units, edges, strict=False)):
         for c_id in this_text_units:
             if c_id in all_text_units_lookup:
                 continue
@@ -789,17 +790,17 @@ async def _find_most_related_edges_from_entities(
     all_related_edges = await asyncio.gather(
         *[knowledge_graph_inst.get_node_edges(dp["entity_name"]) for dp in node_datas]
     )
-    
+
     all_edges = []
     seen = set()
-    
+
     for this_edges in all_related_edges:
         for e in this_edges:
             sorted_edge = tuple(sorted(e))
             if sorted_edge not in seen:
                 seen.add(sorted_edge)
-                all_edges.append(sorted_edge) 
-                
+                all_edges.append(sorted_edge)
+
     all_edges_pack = await asyncio.gather(
         *[knowledge_graph_inst.get_edge(e[0], e[1]) for e in all_edges]
     )
@@ -808,7 +809,7 @@ async def _find_most_related_edges_from_entities(
     )
     all_edges_data = [
         {"src_tgt": k, "rank": d, **v}
-        for k, v, d in zip(all_edges, all_edges_pack, all_edges_degree)
+        for k, v, d in zip(all_edges, all_edges_pack, all_edges_degree, strict=False)
         if v is not None
     ]
     all_edges_data = sorted(
@@ -843,7 +844,7 @@ async def _build_local_query_context(
     )
     node_datas = [
         {**n, "entity_name": k["entity_name"], "rank": d}
-        for k, n, d in zip(results, node_datas, node_degrees)
+        for k, n, d in zip(results, node_datas, node_degrees, strict=False)
         if n is not None
     ]
     use_communities = await _find_most_related_community_from_entities(

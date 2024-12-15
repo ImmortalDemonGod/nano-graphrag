@@ -1,18 +1,19 @@
-from typing import Union
-import pickle
 import asyncio
-from openai import BadRequestError
+import pickle
 from collections import defaultdict
+
 import dspy
+from openai import BadRequestError
+
+from nano_graphrag._op import _merge_edges_then_upsert, _merge_nodes_then_upsert
+from nano_graphrag._utils import compute_mdhash_id, logger
 from nano_graphrag.base import (
     BaseGraphStorage,
     BaseVectorStorage,
     TextChunkSchema,
 )
-from nano_graphrag.prompt import PROMPTS
-from nano_graphrag._utils import logger, compute_mdhash_id
 from nano_graphrag.entity_extraction.module import TypedEntityRelationshipExtractor
-from nano_graphrag._op import _merge_edges_then_upsert, _merge_nodes_then_upsert
+from nano_graphrag.prompt import PROMPTS
 
 
 async def generate_dataset(
@@ -83,7 +84,7 @@ async def extract_entities_dspy(
     knwoledge_graph_inst: BaseGraphStorage,
     entity_vdb: BaseVectorStorage,
     global_config: dict,
-) -> Union[BaseGraphStorage, None]:
+) -> BaseGraphStorage | None:
     entity_extractor = TypedEntityRelationshipExtractor(num_refine_turns=1, self_refine=True)
 
     if global_config.get("use_compiled_dspy_entity_relationship", False):

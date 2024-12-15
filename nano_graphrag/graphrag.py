@@ -1,30 +1,30 @@
 import asyncio
 import os
+from collections.abc import Callable
 from dataclasses import asdict, dataclass, field
 from datetime import datetime
 from functools import partial
-from typing import Callable, Dict, List, Optional, Type, Union, cast
+from typing import cast
 
 import tiktoken
 
-
 from ._llm import (
     amazon_bedrock_embedding,
+    azure_gpt_4o_complete,
+    azure_gpt_4o_mini_complete,
+    azure_openai_embedding,
     create_amazon_bedrock_complete_function,
     gpt_4o_complete,
     gpt_4o_mini_complete,
     openai_embedding,
-    azure_gpt_4o_complete,
-    azure_openai_embedding,
-    azure_gpt_4o_mini_complete,
 )
 from ._op import (
     chunking_by_token_size,
     extract_entities,
     generate_community_report,
     get_chunks,
-    local_query,
     global_query,
+    local_query,
     naive_query,
 )
 from ._storage import (
@@ -34,18 +34,18 @@ from ._storage import (
 )
 from ._utils import (
     EmbeddingFunc,
-    compute_mdhash_id,
-    limit_async_func_call,
-    convert_response_to_json,
     always_get_an_event_loop,
+    compute_mdhash_id,
+    convert_response_to_json,
+    limit_async_func_call,
     logger,
 )
 from .base import (
     BaseGraphStorage,
     BaseKVStorage,
     BaseVectorStorage,
-    StorageNameSpace,
     QueryParam,
+    StorageNameSpace,
 )
 
 
@@ -62,12 +62,12 @@ class GraphRAG:
     chunk_func: Callable[
         [
             list[list[int]],
-            List[str],
+            list[str],
             tiktoken.Encoding,
-            Optional[int],
-            Optional[int],
+            int | None,
+            int | None,
         ],
-        List[Dict[str, Union[str, int]]],
+        list[dict[str, str | int]],
     ] = chunking_by_token_size
     chunk_token_size: int = 1200
     chunk_overlap_token_size: int = 100
@@ -123,10 +123,10 @@ class GraphRAG:
     entity_extraction_func: callable = extract_entities
 
     # storage
-    key_string_value_json_storage_cls: Type[BaseKVStorage] = JsonKVStorage
-    vector_db_storage_cls: Type[BaseVectorStorage] = NanoVectorDBStorage
+    key_string_value_json_storage_cls: type[BaseKVStorage] = JsonKVStorage
+    vector_db_storage_cls: type[BaseVectorStorage] = NanoVectorDBStorage
     vector_db_storage_cls_kwargs: dict = field(default_factory=dict)
-    graph_storage_cls: Type[BaseGraphStorage] = NetworkXStorage
+    graph_storage_cls: type[BaseGraphStorage] = NetworkXStorage
     enable_llm_cache: bool = True
 
     # extension
@@ -274,7 +274,7 @@ class GraphRAG:
             _add_doc_keys = await self.full_docs.filter_keys(list(new_docs.keys()))
             new_docs = {k: v for k, v in new_docs.items() if k in _add_doc_keys}
             if not len(new_docs):
-                logger.warning(f"All docs are already in the storage")
+                logger.warning("All docs are already in the storage")
                 return
             logger.info(f"[New Docs] inserting {len(new_docs)} docs")
 
@@ -294,7 +294,7 @@ class GraphRAG:
                 k: v for k, v in inserting_chunks.items() if k in _add_chunk_keys
             }
             if not len(inserting_chunks):
-                logger.warning(f"All chunks are already in the storage")
+                logger.warning("All chunks are already in the storage")
                 return
             logger.info(f"[New Chunks] inserting {len(inserting_chunks)} chunks")
             if self.enable_naive_rag:

@@ -1,8 +1,9 @@
 import asyncio
 import os
+import pickle
 from dataclasses import dataclass, field
 from typing import Any
-import pickle
+
 import hnswlib
 import numpy as np
 import xxhash
@@ -37,6 +38,11 @@ class HNSWVectorStorage(BaseVectorStorage):
         self.max_elements = hnsw_params.get("max_elements", self.max_elements)
         self.ef_search = hnsw_params.get("ef_search", self.ef_search)
         self.num_threads = hnsw_params.get("num_threads", self.num_threads)
+
+        # Handle None for max_elements by setting it to the default if necessary
+        if self.max_elements is None:
+            self.max_elements = 1000000  # or any other default value you prefer
+
         self._index = hnswlib.Index(
             space="cosine", dim=self.embedding_func.embedding_dim
         )
@@ -102,7 +108,7 @@ class HNSWVectorStorage(BaseVectorStorage):
                 id_int: {
                     k: v for k, v in d.items() if k in self.meta_fields or k == "id"
                 }
-                for id_int, d in zip(ids, list_data)
+                for id_int, d in zip(ids, list_data, strict=False)
             }
         )
         self._index.add_items(data=embeddings, ids=ids, num_threads=self.num_threads)
@@ -132,7 +138,7 @@ class HNSWVectorStorage(BaseVectorStorage):
                 "distance": distance,
                 "similarity": 1 - distance,
             }
-            for label, distance in zip(labels[0], distances[0])
+            for label, distance in zip(labels[0], distances[0], strict=False)
         ]
 
     async def index_done_callback(self):

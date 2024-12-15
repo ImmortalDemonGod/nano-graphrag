@@ -131,10 +131,10 @@ uv run ruff format "$FILE_PATH" > /dev/null 2>&1 || true
 # 4. Add Refactoring Template
 ###############################################################################
 echo -e "\n=======\nREFACTOR:\n**=======**" >> "$COMBINED_OUTPUT"
-if [ -f "$PROJECT_ROOT/docs/templates/Code Refactoring Instructions.md" ]; then
-    cat "$PROJECT_ROOT/docs/templates/Code Refactoring Instructions.md" >> "$COMBINED_OUTPUT"
+if [ -f "/Volumes/Totallynotaharddrive/LeatherDocinsight/DocInsight-Production/docs/templates/Code-Refactoring-Instructions.md" ]; then
+    cat "/Volumes/Totallynotaharddrive/LeatherDocinsight/DocInsight-Production/docs/templates/Code-Refactoring-Instructions.md" >> "$COMBINED_OUTPUT"
 else
-    echo "Warning: Refactoring template not found at: $PROJECT_ROOT/docs/templates/Code Refactoring Instructions.md"
+    echo "Warning: Refactoring template not found at: /Volumes/Totallynotaharddrive/LeatherDocinsight/DocInsight-Production/docs/templates/Code-Refactoring-Instructions.md"
 fi
 
 ###############################################################################
