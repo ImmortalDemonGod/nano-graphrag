@@ -3,6 +3,7 @@ from collections import Counter
 from ._utils import split_string_by_multi_markers, logger
 from .prompt import GRAPH_FIELD_SEP, PROMPTS
 from .base import BaseGraphStorage
+from .summarization import _handle_entity_relation_summary
 
 async def _merge_nodes_then_upsert(
     entity_name: str,
