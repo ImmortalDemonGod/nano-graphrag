@@ -12,38 +12,25 @@ from .prompt import PROMPTS  # Ensure PROMPTS is defined in constants.py
 
 def chunking_by_token_size(
     tokens_list: list[list[int]],
-    doc_keys: list[str],
-    tiktoken_model: Any,  # Replace Any with actual type if known
-    overlap_token_size: int = 128,
-    max_token_size: int = 1024,
-) -> list[dict[str, Any]]:
-    """
-    Splits tokens into chunks based on token size with optional overlap.
+    doc_keys,
+    tiktoken_model,
+    overlap_token_size=128,
+    max_token_size=1024,
+):
 
-    Args:
-        tokens_list (List[List[int]]): List of token lists for each document.
-        doc_keys (List[str]): Corresponding document keys.
-        tiktoken_model (Any): Tokenizer model instance.
-        overlap_token_size (int, optional): Number of overlapping tokens. Defaults to 128.
-        max_token_size (int, optional): Maximum tokens per chunk. Defaults to 1024.
-
-    Returns:
-        List[Dict[str, Any]]: List of chunk dictionaries with metadata.
-    """
     results = []
     for index, tokens in enumerate(tokens_list):
-        chunk_tokens = []
+        chunk_token = []
         lengths = []
-        step = max_token_size - overlap_token_size
-        for start in range(0, len(tokens), step):
-            end = start + max_token_size
-            chunk = tokens[start:end]
-            chunk_tokens.append(chunk)
-            lengths.append(len(chunk))
+        for start in range(0, len(tokens), max_token_size - overlap_token_size):
 
-        # Decode the batch of token chunks into text
-        chunk_decoded = tiktoken_model.decode_batch(chunk_tokens)
-        for i, chunk in enumerate(chunk_decoded):
+            chunk_token.append(tokens[start : start + max_token_size])
+            lengths.append(min(max_token_size, len(tokens) - start))
+
+        # here somehow tricky, since the whole chunk tokens is list[list[list[int]]] for corpus(doc(chunk)),so it can't be decode entirely
+        chunk_token = tiktoken_model.decode_batch(chunk_token)
+        for i, chunk in enumerate(chunk_token):
+
             results.append(
                 {
                     "tokens": lengths[i],
@@ -52,45 +39,34 @@ def chunking_by_token_size(
                     "full_doc_id": doc_keys[index],
                 }
             )
+
     return results
 
 
 def chunking_by_seperators(
     tokens_list: list[list[int]],
-    doc_keys: list[str],
-    tiktoken_model: Any,  # Replace Any with actual type if known
-    overlap_token_size: int = 128,
-    max_token_size: int = 1024,
-) -> list[dict[str, Any]]:
-    """
-    Splits tokens into chunks based on predefined separators with optional overlap.
+    doc_keys,
+    tiktoken_model,
+    overlap_token_size=128,
+    max_token_size=1024,
+):
 
-    Args:
-        tokens_list (List[List[int]]): List of token lists for each document.
-        doc_keys (List[str]): Corresponding document keys.
-        tiktoken_model (Any): Tokenizer model instance.
-        overlap_token_size (int, optional): Number of overlapping tokens. Defaults to 128.
-        max_token_size (int, optional): Maximum tokens per chunk. Defaults to 1024.
-
-    Returns:
-        List[Dict[str, Any]]: List of chunk dictionaries with metadata.
-    """
-    separators = [
-        tiktoken_model.encode(separator) for separator in PROMPTS["default_text_separator"]
-    ]
     splitter = SeparatorSplitter(
-        separators=separators,
+        separators=[
+            tiktoken_model.encode(s) for s in PROMPTS["default_text_separator"]
+        ],
         chunk_size=max_token_size,
         chunk_overlap=overlap_token_size,
     )
     results = []
     for index, tokens in enumerate(tokens_list):
-        chunk_tokens = splitter.split_tokens(tokens)
-        lengths = [len(chunk) for chunk in chunk_tokens]
+        chunk_token = splitter.split_tokens(tokens)
+        lengths = [len(c) for c in chunk_token]
 
-        # Decode the batch of token chunks into text
-        chunk_decoded = tiktoken_model.decode_batch(chunk_tokens)
-        for i, chunk in enumerate(chunk_decoded):
+        # here somehow tricky, since the whole chunk tokens is list[list[list[int]]] for corpus(doc(chunk)),so it can't be decode entirely
+        chunk_token = tiktoken_model.decode_batch(chunk_token)
+        for i, chunk in enumerate(chunk_token):
+
             results.append(
                 {
                     "tokens": lengths[i],
